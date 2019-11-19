@@ -35,16 +35,24 @@ const showDetails = (selectedPet) => {
   }
 
 const removePet = (selectedPet) => {
-  if (!selectedPet) {
-    setError("You tried to remove a pet without selecting it!");
-    return;
-  }
-
-  // Fill out as part of Wave 3.
+  axios.delete(`https://petdibs.herokuapp.com/pets/${selectedPet}`)
+    .then((response) => {
+      setResult(response.data) 
+    })
+    .catch((error) => {
+      if (!selectedPet) { setError("You tried to remove a pet without selecting it!"); return; }
+      else { setError('Remove failed for pet' + `${selectedPet}`); }
+    });
 }
 
 const addPet = (petInfo) => {
-  // Fill out as part of Wave 4.
+  axios.post(BASE_URL)
+  .then((response) => {
+    setResult(response.data) 
+  })
+  .catch((error) => {
+   setError("The request to add your pet failed."); 
+  });
 }
 
 // Use Node-style exports to export functions for tests and main.
